@@ -23,20 +23,20 @@ fibonacci:
 	@ If R4 == 1 goto .L4 (which returns 1)
 	beq .L4
 
-	@ R0 = R4 - 1
-	add r0, r4, #4294967295
+	@ R0 = R4 - 1 (4294967295, same as 0xFFFFFFFF)
+	adds r0, r4, #4294967295
 	@ Recursive call to fibonacci with R4 - 1 as parameter
 	bl fibonacci
 
 	@ R5 = R0
-	mov r5, r0
+	movs r5, r0
 	@ R0 = R4 - 2
-	sub r0, r4, #2
+	subs r0, r4, #2
 	@ Recursive call to fibonacci with R4 - 2 as parameter
 	bl fibonacci
 
 	@ R0 = R5 + R0 (update flags)
-	adds r0, r5, r0
+	add r0, r5, r0
 
 	pop {r3, r4, r5, pc}		@EPILOG
 
