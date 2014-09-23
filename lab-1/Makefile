@@ -25,25 +25,9 @@ clean:
 
 QEMU_CMD = qemu-arm -L /usr/arm-linux-gnueabihf ./fibseq &
 CMD = yes 9 | $(call QEMU_CMD) && sleep 1
+seq_no := 1 2 3 4 5 6 7 8 9 10
 qemu: fibseq
-	@yes 1 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 2 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 3 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 4 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 5 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 6 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 7 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 8 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 9 | $(call QEMU_CMD)
-	@sleep 1
-	@yes 10 | $(call QEMU_CMD)
-	@sleep 1
+	@for n in $(seq_no); do \
+		((yes $$n | $(call QEMU_CMD)) && (sleep 1)); \
+	done
 
