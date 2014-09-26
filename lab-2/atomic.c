@@ -6,11 +6,12 @@
 
 #define locked 1
 #define unlocked 0
+#define MAX_THREAD 2
 
 extern void lock_mutex(void *mutex);
 extern void unlock_mutex(void *mutex);
 
-pthread_t tid[2];
+pthread_t tid[MAX_THREAD];
 int counter;
 // pthread_mutex_t lock;
 unsigned int mutexlock = unlocked;
@@ -24,6 +25,7 @@ void *doSomeThing(void *arg)
 	printf("\n Job %d started\n", counter);
 
 	for (i = 0; i < (0xFFFFFFFF); i++);
+	//for (i = 0; i < 5; i++);
 
 	printf("\n Job %d finished\n", counter);
 
@@ -44,15 +46,18 @@ int main(void)
 	}
 #endif
 
-	while (i < 2) {
+	while (i < MAX_THREAD) {
 		err = pthread_create(&(tid[i]), NULL, &doSomeThing, NULL);
 		if (err != 0)
 			printf("\ncan't create thread :[%s]", strerror(err));
 		i++;
 	}
 
-	pthread_join(tid[0], NULL);
-	pthread_join(tid[1], NULL);
+	int j = 0;
+	while ( j < MAX_THREAD ){
+		pthread_join(tid[j], NULL);
+		j++;
+	}
 	// pthread_mutex_destroy(&lock);
 
 	return 0;
